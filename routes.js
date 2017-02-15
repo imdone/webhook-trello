@@ -9,7 +9,7 @@ var routes = function(app) {
 // request to the console. The HTML you see in the browser is what `res.send()` is sending back.
 //
   app.get("/", function(req, res) {
-    res.send("Oh, hi! There's not much to see here - view the code instead<br><br><br><hr><p><a href=\"https://gomix.com/#!/remix/rest-api/546c8e41-ca39-481c-837f-ea830661c315\"><img src=\"https://gomix.com/images/background-light/remix-on-gomix.svg\"></a></p><p><a href=\"https://gomix.com/#!/project/rest-api\">View Code</a></p>");
+    res.send("<h1>REST API</h1><p>Oh, hi! There's not much to see here - view the code instead</p><footer id=\"gWidget\"></footer><script src=\"https://widget.gomix.me/widget.min.js\"></script>");
     console.log("Received GET");
   });
 
