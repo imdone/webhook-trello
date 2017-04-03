@@ -4,12 +4,12 @@
 var routes = function(app) {
 //
 // This rouet processes GET requests, by using the `get()` method in express, and we're looking for them on
-// the root of the application (in this case that's https://rest-api.gomix.me/), since we've
+// the root of the application (in this case that's https://rest-api.glitch.me/), since we've
 // specified `"/"`.  For any GET request received at "/", we're sending some HTML back and logging the
 // request to the console. The HTML you see in the browser is what `res.send()` is sending back.
 //
   app.get("/", function(req, res) {
-    res.send("<h1>REST API</h1><p>Oh, hi! There's not much to see here - view the code instead</p><footer id=\"gWidget\"></footer><script src=\"https://widget.gomix.me/widget.min.js\"></script>");
+    res.send("<h1>REST API</h1><p>Oh, hi! There's not much to see here - view the code instead</p><footer id=\"gWidget\"></footer><script src=\"https://widget.glitch.me/widget.min.js\"></script>");
     console.log("Received GET");
   });
 
@@ -23,9 +23,9 @@ var routes = function(app) {
 //
 // Testing this is slightly trickier than just viewing the output in the browser. But there are a couple of ways.
 // One way is to send a mock POST request using Curl from the terminal. Copy and paste the following into your terminal and hit enter:
-// `curl -H "Content-Type: application/json" -X POST -d '{"username":"test","data":"1234"}' http://rest-api.gomix.me/update`
+// `curl -H "Content-Type: application/json" -X POST -d '{"username":"test","data":"1234"}' http://rest-api.glitch.me/update`
 // This sends a JSON object with the username 'test' and data '1234' to the '/update' API endpoint.
-// If you have the logs open in Gomix, you'll see an update with the line 'Received POST: {"username":"test","data":"1234"}'.
+// If you have the logs open in Glitch, you'll see an update with the line 'Received POST: {"username":"test","data":"1234"}'.
 // Try editing the JSON object to use different data, and with empty or missing parameters too - you should see
 // the 'Received incomplete POST' message in the logs.
 //
@@ -50,8 +50,8 @@ var routes = function(app) {
 // JSON object. This is simulating the situation in a real app where you might first check that the username exists in your
 // database before trying to store data for that user.
 //
-// You can test this one in the browser - go to https://rest-api.gomix.me/update?username=testUser&data=1234
-// In the Gomix logs, you'll see 'Received GET' and the values for username and data that we passed into the URL displayed.
+// You can test this one in the browser - go to https://rest-api.glitch.me/update?username=testUser&data=1234
+// In the Glitch logs, you'll see 'Received GET' and the values for username and data that we passed into the URL displayed.
 // In the browser window itself, you'll also see the JSON object with username and data values displayed too. Try changing or
 // omitting the values and you'll see the appropriate message or error.
 //
