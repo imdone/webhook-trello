@@ -25,7 +25,7 @@ var routes = function(app) {
     console.log("Received GET");
   });
   
-  app.post('/test-webhook', function(req, res) {
+  app.post('/', function(req, res) {
     // TODO: Figure out how to gain access to the glitch api and track TODOs in glitch
     // DONE: Integrate with twitter using [desmondmorris/node-twitter: Client library for the Twitter REST and Streaming API's.](https://github.com/desmondmorris/node-twitter)
     // DOING: Integrate with trello using [adunkman/node-trello: Node wrapper for Trello's HTTP API.](https://github.com/adunkman/node-trello)
@@ -44,6 +44,7 @@ var routes = function(app) {
             res.status(200).json(req.body.taskNow);
           })
           .catch(function (error) {
+            console.error(error);
             res.status(400).send(error);
           })        
       }
