@@ -35,19 +35,19 @@ var routes = function(app) {
       console.log(req.body);
       if (digest !== signature) return res.status(403);
 
-      if (req.body.delta) {
-        var list = req.body.taskNow.list;
-        var text = req.body.taskNow.text;
-        var status = util.format("%s: %s (Tweet TODO's with @imdoneio webhooks and @atomeditor)", list, text);
-        client.post('statuses/update', {status: status})
-          .then(function (tweet) {
-            res.status(200).json(req.body.taskNow);
-          })
-          .catch(function (error) {
-            console.error(error);
-            res.status(400).send(error);
-          })        
-      }
+      var list = req.body.taskNow.list;
+      var text = req.body.taskNow.text;
+      var status = util.format("%s: %s (via @imdoneio)", list, text);
+
+      client.post('statuses/update', {status: status})
+        .then(function (tweet) {
+          console.log("Tweet sent:", tweet);
+          res.status(200).json(req.body.taskNow);
+        })
+        .catch(function (error) {
+          console.error(error);
+          res.status(200).json(req.body.taskNow);
+        });        
     });
   });
 
