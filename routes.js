@@ -4,14 +4,15 @@ const twitter = require('twitter');
 //
 // This defines two routes that our API is going to use.
 //
-  getHMACDigest: function(body,cb) {
-    var secret = this.config.secret;
+var getHMACDigest = function(body,cb) {
+    var secret = process.env.SECRET;
     if (!(secret && _.isString(secret) && secret.length > 0)) return cb();
     var hmac = crypto.createHmac("sha1", secret).setEncoding('hex');
     hmac.end(body, function() {
       cb(hmac.read());
     });
-  }
+  };
+
 var routes = function(app) {
 //
 // This rouet processes GET requests, by using the `get()` method in express, and we're looking for them on
@@ -36,9 +37,18 @@ var routes = function(app) {
     // DOING: Integrate with trello using [adunkman/node-trello: Node wrapper for Trello's HTTP API.](https://github.com/adunkman/node-trello) id:102
 
     console.log(req.headers);
-    
-    req.body.taskNow.text += " <using glitch>"
-    res.status(200).json(req.body.taskNow); // DOING: This should send the task back if it should be updated id:99
+
+    var signature = req.headers["x-imdone-signature"];
+    getHMACDigest(JSON.stringify(req.body), function(digest) {
+      console.log("digest:", digest);
+      console.log("signature");
+      if (digest === signature) {
+        // req.body.taskNow.text += " +signature"
+        res.status(200).json(req.body.taskNow); // DOING: This should send the task back if it should be updated id:99
+      } else {
+        res.status(403);
+      }
+    });
   });
 
 };
