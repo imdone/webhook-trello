@@ -1,6 +1,7 @@
 const crypto = require('crypto');
-const twitter = require('twitter');
+const Twitter = require('twitter');
 const _ = require('lodash');
+const util = require('util');
 
 //
 // This defines two routes that our API is going to use.
@@ -43,9 +44,17 @@ var routes = function(app) {
       if (digest !== signature) return res.status(403);
 
       if (req.body.delta) {
-        
+        var list = req.body.taskNow.list;
+        var text = req.body.taskNow.text;
+        var status = util.format("%s: %s (Tweet TODO's with webhooks and @imdoneio)", list, text);
+        client.post('statuses/update', {status: status})
+          .then(function (tweet) {
+            res.status(200).json(req.body.taskNow); // DOING: This should send the task back if it should be updated id:99
+          })
+          .catch(function (error) {
+            res.status(400).;
+          })        
       }
-      res.status(200).json(req.body.taskNow); // DOING: This should send the task back if it should be updated id:99
     });
   });
 
