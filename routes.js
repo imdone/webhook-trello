@@ -26,7 +26,7 @@ var routes = function(app) {
 
     console.log(req.headers);
     req.body.taskNow.text += " <using glitch>"
-    res.status(200).sendObject(req.body.taskNow); // DOING: This should send the task back if it should be updated id:99
+    res.status(200).json(req.body.taskNow); // DOING: This should send the task back if it should be updated id:99
   });
 
 };
