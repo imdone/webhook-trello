@@ -9,7 +9,7 @@
 	"dependencies": {
     "express": "^4.12.4",
 		"body-parser":"1.14.2",
-    "node-twitter":"*"
+    "twitter":"*"
 	},
 	"engines": {
 		"node": "4.4.5"

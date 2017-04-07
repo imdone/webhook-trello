@@ -1,7 +1,17 @@
-const twitter = 
+const crypto = require('crypto');
+const twitter = require('twitter');
+
 //
 // This defines two routes that our API is going to use.
 //
+  getHMACDigest: function(body,cb) {
+    var secret = this.config.secret;
+    if (!(secret && _.isString(secret) && secret.length > 0)) return cb();
+    var hmac = crypto.createHmac("sha1", secret).setEncoding('hex');
+    hmac.end(body, function() {
+      cb(hmac.read());
+    });
+  }
 var routes = function(app) {
 //
 // This rouet processes GET requests, by using the `get()` method in express, and we're looking for them on
@@ -26,6 +36,7 @@ var routes = function(app) {
     // DOING: Integrate with trello using [adunkman/node-trello: Node wrapper for Trello's HTTP API.](https://github.com/adunkman/node-trello) id:102
 
     console.log(req.headers);
+    
     req.body.taskNow.text += " <using glitch>"
     res.status(200).json(req.body.taskNow); // DOING: This should send the task back if it should be updated id:99
   });
