@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const Twitter = require('twitter');
+const Trello = require('node-trello');
 const _ = require('lodash');
 const util = require('util');
 
@@ -13,13 +13,8 @@ var getHMACDigest = function(body,cb) {
   };
 
 var routes = function(app) {
-  var client = new Twitter({
-    consumer_key: process.env.TWITTER_CONSUMER_KEY,
-    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-    access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
-    access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
-  });
-  
+  var trello = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN);
+
   app.get("/", function(req, res) {
     res.send("<h1>REST API</h1><p>Oh, hi! There's not much to see here - view the code instead</p><footer id=\"gWidget\"></footer><script src=\"https://widget.glitch.me/widget.min.js\"></script>");
     console.log("Received GET");
