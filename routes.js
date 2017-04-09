@@ -4,7 +4,11 @@ const _ = require('lodash');
 const util = require('util');
 
 var config = {
-  
+  boardId:"576c14588e1c4ddb18e21e69",
+  mapping: {
+    "TODO": "todo",
+    "DOING":
+  }
 };
 
 var trello = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN);
@@ -46,16 +50,7 @@ var routes = function(app) {
       var text = req.body.taskNow.text;
       var status = util.format("%s: %s (via @imdoneio)", list, text);
 
-      client.post('statuses/update', {status: status})
-        .then(function (tweet) {
-          console.log("Tweet sent:", tweet);
-          res.status(200).json(req.body.taskNow);
-        })
-        .catch(function (error) {
-          console.error(error);
-          res.status(200).json(req.body.taskNow);
-        });        
-      
+      trello.get('/1/boards/')
     });
 
   });
