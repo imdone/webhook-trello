@@ -6,8 +6,9 @@ const util = require('util');
 var config = {
   boardId:"576c14588e1c4ddb18e21e69",
   mapping: {
+    "BACKLOG": "backlog",
     "TODO": "todo",
-    "DOING":
+    "DOING": "doing"
   }
 };
 
