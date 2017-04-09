@@ -7,6 +7,8 @@ var config = {
   
 };
 
+var trello = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN);
+
 var getHMACDigest = function(body,cb) {
     var secret = process.env.SECRET;
     if (!(secret && _.isString(secret) && secret.length > 0)) return cb();
@@ -17,11 +19,15 @@ var getHMACDigest = function(body,cb) {
   };
 
 var validateSignature = function(req, cb) {
-  
+    var signature = req.headers["x-imdone-signature"];
+    getHMACDigest(JSON.stringify(req.body), function(digest) {
+      console.log(req.body);
+      if (digest !== signature) return cb(false);
+      cb(true);
+    });
 };
 
 var routes = function(app) {
-  var trello = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN);
 
   app.get("/", function(req, res) {
     res.send("<h1>REST API</h1><p>Oh, hi! There's not much to see here - view the code instead</p><footer id=\"gWidget\"></footer><script src=\"https://widget.glitch.me/widget.min.js\"></script>");
@@ -33,7 +39,9 @@ var routes = function(app) {
     // DONE: Integrate with twitter using [desmondmorris/node-twitter: Client library for the Twitter REST and Streaming API's.](https://github.com/desmondmorris/node-twitter)
     // DOING: Integrate with trello using [adunkman/node-trello: Node wrapper for Trello's HTTP API.](https://github.com/adunkman/node-trello)
 
-    var processReequest = function() {
+    validateSignature(req, function(valid) {
+      if (!valid) return res.status(403);
+      
       var list = req.body.taskNow.list;
       var text = req.body.taskNow.text;
       var status = util.format("%s: %s (via @imdoneio)", list, text);
@@ -48,15 +56,8 @@ var routes = function(app) {
           res.status(200).json(req.body.taskNow);
         });        
       
-    }
-
-    var signature = req.headers["x-imdone-signature"];
-    
-    getHMACDigest(JSON.stringify(req.body), function(digest) {
-      console.log(req.body);
-      if (digest !== signature) return res.status(403);
-      processRequest();
     });
+
   });
 
 };
