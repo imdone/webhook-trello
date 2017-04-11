@@ -12,6 +12,8 @@ TRELLO_KEY="Get these from trello"
 TRELLO_TOKEN=""
 ```
 
+You'll also have to update config.json with values for your board.
+
 Then copy the base url of your glitch app. (e.g. https://imdone-webhook-trello.glitch.me/)
 
 Then create a webhook on [imdone.io](https://imdone.io) and paste it in.
