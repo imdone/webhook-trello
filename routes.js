@@ -14,11 +14,13 @@ const config = {
 
 const trello = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN);
 const getBoard = function(cb) {
-  request(`${config.boardURL}.json`, function (error, response, body) {
+  request({url:`${config.boardURL}.json`, json: true}, function (error, response, body) {
     console.log('error:', error); // Print the error if one occurred
-    if (error) return cb(error);
     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
     console.log('body:', body); // Print the HTML for the Google homepage. 
+    if (error) return cb(error);
+    if (response.statusCode !== 200) return cb(null, response);
+    cb(error, response, body);
   });
 };
 
@@ -37,12 +39,12 @@ const routes = function(app) {
     validateSignature(req, function(valid) {
       if (!valid) return res.status(403);
       
-      
-      var list = req.body.taskNow.list;
-      var text = req.body.taskNow.text;
-      var status = util.format("%s: %s (via @imdoneio)", list, text);
-
-      trello.get('/1/boards/')
+      getBoard(function(err, response, board) {
+        if (board) {
+          console.log(board)
+        }
+        res.status(200).json(req.body.taskNow);        
+      });
     });
 
   });
