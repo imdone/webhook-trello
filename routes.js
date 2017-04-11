@@ -29,10 +29,10 @@ const getBoard = function(cb) {
     console.log('body:', body); // Print the HTML for the Google homepage. 
     if (error) return cb(error);
     if (response.statusCode !== 200) return cb(null, response);
-    trello.get(`/1/boards/${body.id}`, function(err, board) {
-      if (err) return cb(err);
+    trello.get(`/1/boards/${body.id}/lists`, function(err, lists) {
+      body.lists = lists;
+      cb(error, response, body);
     });
-    cb(error, response, body);
   });
 };
 
@@ -59,9 +59,12 @@ const routes = function(app) {
           console.log(`card: ${cardText}`);
 
           //check for trello id
-          var cardId;
           if (taskNow.meta.tr) {
-            cardId = taskNow.meta.tr[0];
+            var cardId = taskNow.meta.tr[0];
+            trello.get(`/1/boards/${board.id}/cards/${cardId}`, function(err, card) {
+              if (err) return cb(err);
+              cb(error, response, board);
+            });
           } else {
             
           }
