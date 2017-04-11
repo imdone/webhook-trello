@@ -54,7 +54,6 @@ const routes = function(app) {
       
       getBoard(function(err, response, board) {
         if (board) {
-          console.log("board:",board);
           var taskNow = new Task(req.body.taskNow);
           var cardText = taskNow.getText({stripMeta: true, stripDates: true});
           var trelloList = _.find(board.lists, {name:config.mapping[taskNow.list]});
