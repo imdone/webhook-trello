@@ -56,21 +56,22 @@ const routes = function(app) {
           console.log("board:",board);
           var taskNow = new Task(req.body.taskNow);
           var cardText = taskNow.getText({stripMeta: true, stripDates: true});
-          console.log(`card: ${cardText}`);
-
+          var trelloList = _.find(board.lists, {name:config.mapping[taskNow.list]});
+          if (!trelloList) return res.status(200).json(taskNow);
+          
           //check for trello id
           if (taskNow.meta.tr) {
             var cardId = taskNow.meta.tr[0];
             trello.get(`/1/boards/${board.id}/cards/${cardId}`, function(err, card) {
-              if (err) return cb(err);
-              cb(error, response, board);
+              if (err) return 
+              trello.put(`/1/cards/${cardId}`)
+              res.status(200).json(taskNow);        
             });
           } else {
-            
+            res.status(200).json(taskNow);        
           }
         }
         
-        res.status(200).json(req.body.taskNow);        
       });
     });
 
