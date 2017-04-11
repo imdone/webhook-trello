@@ -12,7 +12,7 @@ TRELLO_KEY="Get these from trello"
 TRELLO_TOKEN=""
 ```
 
-You'll also have to update config.json with values for your board.
+You'll also have to update config.json with values for your board.  The list name `mapping` should follow the format `[code-tag]:[trello-list-name]`.
 
 Then copy the base url of your glitch app. (e.g. https://imdone-webhook-trello.glitch.me/)
 
