@@ -1,0 +1,9 @@
+{
+  "boardURL":"https://trello.com/b/bRIsaqjI/coding-tasks",
+  "mapping": {
+    "BACKLOG": "backlog",
+    "TODO": "todo",
+    "DOING": "doing",
+    "DONE": "done"
+  }
+}
