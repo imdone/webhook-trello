@@ -5,15 +5,7 @@ const request = require('request');
 const Task = require('imdone-core/lib/task');
 const _ = require('lodash');
 
-const config = {
-  boardURL:"https://trello.com/b/bRIsaqjI/coding-tasks",
-  mapping: {
-    "BACKLOG": "backlog",
-    "TODO": "todo",
-    "DOING": "doing",
-    "DONE": "done"
-  }
-};
+const config = require('./config');
 
 const trello = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN);
 const getBoard = function(cb) {
