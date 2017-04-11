@@ -3,6 +3,7 @@ const validateSignature = require('webhook-validate');
 const util = require('util');
 const request = require('request');
 const Task = require('imdone-core/lib/task');
+const _ = require('lodash');
 
 const config = {
   boardURL:"https://trello.com/b/bRIsaqjI/coding-tasks",
@@ -63,12 +64,17 @@ const routes = function(app) {
           if (taskNow.meta.tr) {
             var cardId = taskNow.meta.tr[0];
             trello.get(`/1/boards/${board.id}/cards/${cardId}`, function(err, card) {
-              if (err) return 
-              trello.put(`/1/cards/${cardId}`)
-              res.status(200).json(taskNow);        
+              trello.put(`/1/cards/${cardId}`, {name: cardText, idList: trelloList.id}, function(err, data) {
+                res.status(200).json(taskNow);        
+              });
             });
           } else {
-            res.status(200).json(taskNow);        
+            trello.post(`/1/cards`, {name: cardText, idList: trelloList.id}, function(err, data) {
+              if (err) return res.status(200).json(taskNow); 
+              taskNow.meta.tr = [data.id];
+              taskNow.updateTodoTxt();
+              res.status(200).json(taskNow);        
+            });      
           }
         }
         
