@@ -14,7 +14,14 @@ const config = {
 
 const trello = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN);
 const getBoard = function(cb) {
-  request({url:`${config.boardURL}.json`, json: true}, function (error, response, body) {
+  request({
+    url:`${config.boardURL}.json`, 
+    json: true,
+    qs: {
+      key: process.env.TRELLO_KEY,
+      token: process.env.TRELLO_TOKEN
+    }
+  }, function (error, response, body) {
     console.log('error:', error); // Print the error if one occurred
     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
     console.log('body:', body); // Print the HTML for the Google homepage. 
@@ -41,7 +48,7 @@ const routes = function(app) {
       
       getBoard(function(err, response, board) {
         if (board) {
-          console.log(board)
+          console.log("board:",board);
         }
         res.status(200).json(req.body.taskNow);        
       });
