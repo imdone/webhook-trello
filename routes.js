@@ -2,13 +2,15 @@ const Trello = require('node-trello');
 const validateSignature = require('webhook-validate');
 const util = require('util');
 const request = require('request');
+const Task = require('imdone-core/lib/task');
 
 const config = {
-  boardURL:"https://trello.com/b/eKbyaLzk/marketing",
+  boardURL:"https://trello.com/b/bRIsaqjI/coding-tasks",
   mapping: {
     "BACKLOG": "backlog",
     "TODO": "todo",
-    "DOING": "doing"
+    "DOING": "doing",
+    "DONE": "done"
   }
 };
 
@@ -50,6 +52,8 @@ const routes = function(app) {
         if (board) {
           console.log("board:",board);
         }
+        var taskNow = new Task(req.body.taskNow);
+        
         res.status(200).json(req.body.taskNow);        
       });
     });
