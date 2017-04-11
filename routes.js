@@ -1,6 +1,5 @@
-const crypto = require('crypto');
 const Trello = require('node-trello');
-const _ = require('lodash');
+const validateSignature = require('./imdone-webhook-validate');
 const util = require('util');
 
 var config = {
@@ -13,24 +12,6 @@ var config = {
 };
 
 var trello = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN);
-
-var getHMACDigest = function(body,cb) {
-    var secret = process.env.SECRET;
-    if (!(secret && _.isString(secret) && secret.length > 0)) return cb();
-    var hmac = crypto.createHmac("sha1", secret).setEncoding('hex');
-    hmac.end(body, function() {
-      cb(hmac.read());
-    });
-  };
-
-var validateSignature = function(req, cb) {
-    var signature = req.headers["x-imdone-signature"];
-    getHMACDigest(JSON.stringify(req.body), function(digest) {
-      console.log(req.body);
-      if (digest !== signature) return cb(false);
-      cb(true);
-    });
-};
 
 var routes = function(app) {
 
