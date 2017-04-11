@@ -1,5 +1,5 @@
 const Trello = require('node-trello');
-const validateSignature = require('./imdone-webhook-validate');
+const validateSignature = require('webhook-validate');
 const util = require('util');
 
 var config = {
