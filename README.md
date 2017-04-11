@@ -2,7 +2,7 @@ trello webhook for imdone.io
 ----
 This is an [imdone.io](https://imdone.io) webhook that creates and updates trello cards from TODO comments
 
-To use it, remix this project and add the following environment variables in .env
+To use it, remix [this project](https://imdone-webhook-trello.glitch.me) and add the following environment variables in .env
 
 You can get the twitter credentials [here](https://trello.com/1/appKey/generate).
 
