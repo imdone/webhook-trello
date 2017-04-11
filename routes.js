@@ -1,8 +1,9 @@
 const Trello = require('node-trello');
 const validateSignature = require('webhook-validate');
 const util = require('util');
+const request = require('request');
 
-var config = {
+const config = {
   boardURL:"https://trello.com/b/eKbyaLzk/marketing",
   mapping: {
     "BACKLOG": "backlog",
@@ -11,9 +12,17 @@ var config = {
   }
 };
 
-var trello = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN);
+const trello = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN);
+const getBoard = function(cb) {
+  request(`${config.boardURL}.json`, function (error, response, body) {
+    console.log('error:', error); // Print the error if one occurred
+    if (error) return cb(error);
+    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
+    console.log('body:', body); // Print the HTML for the Google homepage. 
+  });
+};
 
-var routes = function(app) {
+const routes = function(app) {
 
   app.get("/", function(req, res) {
     res.send("<h1>REST API</h1><p>Oh, hi! There's not much to see here - view the code instead</p><footer id=\"gWidget\"></footer><script src=\"https://widget.glitch.me/widget.min.js\"></script>");
@@ -27,6 +36,7 @@ var routes = function(app) {
 
     validateSignature(req, function(valid) {
       if (!valid) return res.status(403);
+      
       
       var list = req.body.taskNow.list;
       var text = req.body.taskNow.text;
