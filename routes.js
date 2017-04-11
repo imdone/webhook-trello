@@ -4,7 +4,7 @@ const _ = require('lodash');
 const util = require('util');
 
 var config = {
-  boardId:"576c14588e1c4ddb18e21e69",
+  boardURL:"https://trello.com/b/eKbyaLzk/marketing",
   mapping: {
     "BACKLOG": "backlog",
     "TODO": "todo",
