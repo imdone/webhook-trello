@@ -29,6 +29,9 @@ const getBoard = function(cb) {
     console.log('body:', body); // Print the HTML for the Google homepage. 
     if (error) return cb(error);
     if (response.statusCode !== 200) return cb(null, response);
+    trello.get(`/1/boards/${body.id}`, function(err, board) {
+      if (err) return cb(err);
+    });
     cb(error, response, body);
   });
 };
@@ -51,8 +54,18 @@ const routes = function(app) {
       getBoard(function(err, response, board) {
         if (board) {
           console.log("board:",board);
+          var taskNow = new Task(req.body.taskNow);
+          var cardText = taskNow.getText({stripMeta: true, stripDates: true});
+          console.log(`card: ${cardText}`);
+
+          //check for trello id
+          var cardId;
+          if (taskNow.meta.tr) {
+            cardId = taskNow.meta.tr[0];
+          } else {
+            
+          }
         }
-        var taskNow = new Task(req.body.taskNow);
         
         res.status(200).json(req.body.taskNow);        
       });
