@@ -32,7 +32,7 @@ const getBoard = function(cb) {
 const routes = function(app) {
 
   app.get("/", function(req, res) {
-    res.send("<h1>REST API</h1><p>Oh, hi! There's not much to see here - view the code instead</p><footer id=\"gWidget\"></footer><script src=\"https://widget.glitch.me/widget.min.js\"></script>");
+    res.send("<h1>imdone.io Trello webhook</h1><p>Oh, hi! There's not much to see here - view the code instead</p><footer id=\"gWidget\"></footer><script src=\"https://widget.glitch.me/widget.min.js\"></script>");
     console.log("Received GET");
   });
   
