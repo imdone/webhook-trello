@@ -43,6 +43,7 @@ const routes = function(app) {
 
     validateSignature(req, function(valid) {
       if (!valid) return res.status(403);
+      // TODO: This should respect taskNow.deleted and put card in a completed column, or just delete card
       
       getBoard(function(err, response, board) {
         if (board) {
